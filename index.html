@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sony WH-1000XM6 - Silence, perfected.</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <!-- Apple-Style Minimal Navbar -->
+    <nav id="navbar" class="hidden-nav">
+        <div class="nav-content">
+            <div class="logo">Sony</div>
+            <div class="nav-links">
+                <a href="#overview" data-scroll="0">Overview</a>
+                <a href="#technology" data-scroll="25">Technology</a>
+                <a href="#noise-cancelling" data-scroll="50">Noise Cancelling</a>
+                <a href="#specs" data-scroll="75">Specs</a>
+                <a href="#buy" data-scroll="95">Buy</a>
+            </div>
+            <button class="cta-button nav-cta" data-scroll="95">Experience WH-1000XM6</button>
+        </div>
+    </nav>
+
+    <!-- Scroll Container -->
+    <main class="scroll-container">
+        
+        <!-- Sticky Wrapper (Holds Canvas) -->
+        <div class="sticky-wrapper">
+            <canvas id="frame-canvas"></canvas>
+            
+            <div class="gradient-glow"></div>
+        </div>
+
+        <!-- Story Beats (Positioned to overlay the canvas over time) -->
+        <div class="story-sections">
+            
+            <!-- Context: 0 - 15% -->
+            <section class="beat" id="beat-1">
+                <div class="content centered">
+                    <h1 class="headline gradient-text">Sony WH-1000XM6</h1>
+                    <h2 class="subtitle">Silence, perfected.</h2>
+                    <p class="description">Flagship wireless noise cancelling, re-engineered for a world that never stops.</p>
+                </div>
+            </section>
+
+            <!-- Context: 15 - 40% -->
+            <section class="beat" id="beat-2">
+                <div class="content left-aligned">
+                    <h2 class="headline">Precision-engineered for silence.</h2>
+                    <p class="description">Custom drivers, sealed acoustic chambers, and optimized airflow deliver studio-grade clarity.</p>
+                    <p class="description">Every component is tuned for balance, power, and comfort—hour after hour.</p>
+                </div>
+            </section>
+
+            <!-- Context: 40 - 65% -->
+            <section class="beat" id="beat-3">
+                <div class="content right-aligned">
+                    <h2 class="headline">Adaptive noise cancelling, redefined.</h2>
+                    <ul class="feature-list">
+                        <li>Multi-microphone array listens in every direction.</li>
+                        <li>Real-time noise analysis adjusts to your environment.</li>
+                        <li>Your music stays pure—planes, trains, and crowds fade away.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Context: 65 - 85% -->
+            <section class="beat" id="beat-4">
+                <div class="content left-aligned">
+                    <h2 class="headline">Immersive, lifelike sound.</h2>
+                    <p class="description">High-performance drivers unlock detail, depth, and texture in every track.</p>
+                    <p class="description">AI-enhanced upscaling restores clarity to compressed audio, so every note feels alive.</p>
+                </div>
+            </section>
+
+            <!-- Context: 85 - 100% -->
+            <section class="beat" id="beat-5">
+                <div class="content centered">
+                    <h2 class="headline gradient-text">Hear everything. Feel nothing else.</h2>
+                    <h3 class="subtitle final-subtitle">WH-1000XM6. Designed for focus, crafted for comfort.</h3>
+                    <div class="cta-group">
+                        <button class="cta-button primary" data-scroll="95">Experience</button>
+                        <a href="#specs" class="secondary-link" data-scroll="75">See full specs</a>
+                    </div>
+                </div>
+                <div class="award-footer">
+                    <div class="footer-col">
+                        <span class="footer-label">INQUIRIES</span>
+                        <a href="mailto:hamzadaddy@gmail.com" class="footer-link">hamzadaddy@gmail.com</a>
+                    </div>
+                    <div class="footer-divider"></div>
+                    <div class="footer-col">
+                        <span class="footer-label">DIRECT LINE</span>
+                        <a href="tel:03103206916" class="footer-link">0310 3206916</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
