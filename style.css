@@ -62,7 +62,7 @@ nav.hidden-nav {
 
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 0.8rem;
 }
 
 .nav-links a {
@@ -126,7 +126,7 @@ nav.hidden-nav {
 /* Scroll Container */
 .scroll-container {
     position: relative;
-    height: 600vh; /* Plenty of room to scroll through everything */
+    height: 500vh;
 }
 
 .sticky-wrapper {
@@ -146,9 +146,6 @@ nav.hidden-nav {
     left: 0;
     width: 100%;
     height: 100%;
-    /* To ensure black background matches sequence seamlessly, and we don't stretch weirdly */
-    /* Wait, the sequence is 16:9? The user says it should be seamless 050505 background */
-    /* Cover will work, or contain depending on image size. Contain is safer for products */
 }
 
 /* Gradients */
@@ -166,19 +163,18 @@ nav.hidden-nav {
 
 /* Text Overlays - Sections */
 .story-sections {
-    /* Absolute overlay over the whole page, beats are fixed inside it */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; 
+    pointer-events: none;
     z-index: 2;
 }
 
 .beat {
-    position: fixed; /* Fixed to viewport so we just toggle opacity based on scroll percentage */
-    top: 0; 
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
@@ -188,7 +184,7 @@ nav.hidden-nav {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
-    pointer-events: none; /* Only enable when active */
+    pointer-events: none;
 }
 
 .beat.active {
@@ -336,12 +332,23 @@ nav.hidden-nav {
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
     .headline { font-size: 2.5rem; }
     .content.left-aligned, .content.right-aligned { margin: 0 2rem; text-align: center; }
-    .nav-links { display: none; }
     
+    .nav-links {
+        display: flex;
+        gap: 0.6rem;
+    }
+    .nav-links a {
+        font-size: 0.7rem;
+    }
+    .cta-button.nav-cta {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.7rem;
+    }
+
     .award-footer {
         flex-direction: column;
         gap: 1.5rem;
