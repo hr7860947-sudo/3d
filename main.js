@@ -1,4 +1,4 @@
-Const canvas = document.getElementById("frame-canvas");
+const canvas = document.getElementById("frame-canvas");
 const ctx = canvas.getContext("2d");
 
 const frameCount = 40;
@@ -103,6 +103,7 @@ function preloadImages() {
             loadedCount++;
             if (loadedCount === 1) {
                 drawFrame(0);
+                updateScroll();
             }
             if (loadedCount === frameCount) {
                 setTimeout(updateScroll, 50);
