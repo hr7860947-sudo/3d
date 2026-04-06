@@ -13,13 +13,12 @@
     padding: 0;
 }
 
-body, html {
+body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     overflow-x: hidden;
-    width: 100%;
-    height: 100%;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Navbar */
@@ -31,26 +30,41 @@ nav {
     height: 56px;
     background: rgba(5, 5, 5, 0.75);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-nav.hidden-nav { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+nav.hidden-nav {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
 
-.nav-content { width: 100%; max-width: 1200px; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+.nav-content {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /* Scroll Container */
-.scroll-container { position: relative; height: 500vh; width: 100%; }
+.scroll-container {
+    position: relative;
+    height: 500vh; /* Is se scroll wapas aa jayega */
+}
 
 .sticky-wrapper {
     position: sticky;
     top: 0;
-    width: 100vw;
     height: 100vh;
-    height: 100dvh; /* Mobile Fix */
+    height: 100dvh; /* Mobile Height Fix */
+    width: 100vw;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -59,13 +73,25 @@ nav.hidden-nav { opacity: 0; transform: translateY(-10px); pointer-events: none;
 }
 
 #frame-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     display: block;
 }
 
-/* Story Sections */
+/* Beats / Sections */
+.story-sections {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
 .beat {
     position: fixed;
     top: 0;
@@ -78,31 +104,55 @@ nav.hidden-nav { opacity: 0; transform: translateY(-10px); pointer-events: none;
     justify-content: center;
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.6s ease;
-    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.beat.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.beat.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
 
-/* Content Styling */
-.content { max-width: 600px; padding: 2rem; width: 100%; z-index: 10; }
+/* Typography & Content */
+.content { max-width: 600px; padding: 2rem; width: 100%; }
+.content.centered { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.content.left-aligned { margin-right: auto; margin-left: 10%; text-align: left; }
+.content.right-aligned { margin-left: auto; margin-right: 10%; text-align: right; }
+
 .headline { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
-.gradient-text { background: linear-gradient(180deg, #fff 60%, var(--accent-secondary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.gradient-text {
+    background: linear-gradient(180deg, #ffffff 60%, var(--accent-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-/* Footer */
+/* Buttons */
+.cta-button {
+    background: transparent;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent-primary);
+    color: white;
+}
+
+.cta-button.primary { padding: 0.8rem 1.5rem; font-size: 1rem; border-radius: 30px; }
+
+/* Award Footer */
 .award-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 2rem;
+    padding: 2.5rem;
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    background: linear-gradient(to top, #050505, transparent);
+    gap: 3rem;
+    background: linear-gradient(to top, rgba(5,5,5,1), transparent);
 }
 
 @media (max-width: 768px) {
-    .headline { font-size: 2.2rem; }
-    .content { text-align: center !important; margin: 0 !important; }
-    .award-footer { flex-direction: column; gap: 1rem; align-items: center; }
+    .headline { font-size: 2.5rem; }
+    .content.left-aligned, .content.right-aligned { margin: 0; text-align: center; }
+    .award-footer { flex-direction: column; gap: 1rem; }
 }
