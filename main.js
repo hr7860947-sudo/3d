@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 const frameCount = 40;
 
 const getFrame = (index) =>
-    `ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`;
+    `Public/ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`;
 
 // Preload all images
 const images = [];
@@ -25,7 +25,6 @@ function drawFrame(index) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Fill with premium dark mode background completely to avoid white flashes
     ctx.fillStyle = '#050505';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -47,10 +46,8 @@ const navbar = document.getElementById('navbar');
 function updateScroll() {
     const scrollTop = html.scrollTop;
     const maxScrollTop = html.scrollHeight - window.innerHeight;
-    // Protect against division by zero if not scrollable yet
     const scrollFraction = maxScrollTop > 0 ? scrollTop / maxScrollTop : 0; 
 
-    // Smoothly calculate frame index
     const frameIndex = Math.min(
         frameCount - 1,
         Math.max(0, Math.floor(scrollFraction * frameCount))
@@ -61,33 +58,31 @@ function updateScroll() {
         drawFrame(currentFrameIndex);
     }
 
-    // Navbar glassy fade
     if (scrollTop > 50) {
         navbar.classList.remove('hidden-nav');
     } else {
         navbar.classList.add('hidden-nav');
     }
 
-    // Story Beats Visibility (0-15%, 15-40%, 40-65%, 65-85%, 85-100%)
     const p = scrollFraction * 100;
     
     beats.forEach((beat, index) => {
         let isActive = false;
         let isPast = false;
 
-        if (index === 0) { // 0 - 15%
+        if (index === 0) {
             isActive = p >= 0 && p < 15;
             isPast = p >= 15;
-        } else if (index === 1) { // 15 - 40%
+        } else if (index === 1) {
             isActive = p >= 15 && p < 40;
             isPast = p >= 40;
-        } else if (index === 2) { // 40 - 65%
+        } else if (index === 2) {
             isActive = p >= 40 && p < 65;
             isPast = p >= 65;
-        } else if (index === 3) { // 65 - 85%
+        } else if (index === 3) {
             isActive = p >= 65 && p < 85;
             isPast = p >= 85;
-        } else if (index === 4) { // 85 - 100%
+        } else if (index === 4) {
             isActive = p >= 85;
             isPast = false;
         }
@@ -105,7 +100,6 @@ function updateScroll() {
     });
 }
 
-// Preload karo phir animation shuru karo
 function preloadImages() {
     for (let i = 0; i < frameCount; i++) {
         const img = new Image();
@@ -113,16 +107,14 @@ function preloadImages() {
         img.onload = () => {
             loadedCount++;
             if (loadedCount === frameCount) {
-                // Initial paint after all images load
                 drawFrame(0);
-                setTimeout(updateScroll, 50); // Ensure layout is complete
+                setTimeout(updateScroll, 50);
             }
         };
         images.push(img);
     }
 }
 
-// Navigation click logic
 document.querySelectorAll('[data-scroll]').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
