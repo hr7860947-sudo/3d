@@ -6,29 +6,25 @@ const frameCount = 40;
 const getFrame = (index) =>
     `Public/ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`;
 
-// Preload all images
 const images = [];
 let loadedCount = 0;
-let currentFrameIndex = 0; 
+let currentFrameIndex = 0;
 
-// Canvas resize
 function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     drawFrame(currentFrameIndex);
 }
 
-// Frame draw karna
 function drawFrame(index) {
     const img = images[index];
     if (!img || !img.complete) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
     ctx.fillStyle = '#050505';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const scale = Math.min(
+    const scale = Math.max(
         canvas.width / img.width,
         canvas.height / img.height
     );
@@ -38,7 +34,6 @@ function drawFrame(index) {
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 }
 
-// Scroll interaction logic
 const html = document.documentElement;
 const beats = document.querySelectorAll('.beat');
 const navbar = document.getElementById('navbar');
@@ -46,13 +41,13 @@ const navbar = document.getElementById('navbar');
 function updateScroll() {
     const scrollTop = html.scrollTop;
     const maxScrollTop = html.scrollHeight - window.innerHeight;
-    const scrollFraction = maxScrollTop > 0 ? scrollTop / maxScrollTop : 0; 
+    const scrollFraction = maxScrollTop > 0 ? scrollTop / maxScrollTop : 0;
 
     const frameIndex = Math.min(
         frameCount - 1,
         Math.max(0, Math.floor(scrollFraction * frameCount))
     );
-    
+
     if (frameIndex !== currentFrameIndex) {
         currentFrameIndex = frameIndex;
         drawFrame(currentFrameIndex);
@@ -65,7 +60,7 @@ function updateScroll() {
     }
 
     const p = scrollFraction * 100;
-    
+
     beats.forEach((beat, index) => {
         let isActive = false;
         let isPast = false;
@@ -106,8 +101,10 @@ function preloadImages() {
         img.src = getFrame(i);
         img.onload = () => {
             loadedCount++;
-            if (loadedCount === frameCount) {
+            if (loadedCount === 1) {
                 drawFrame(0);
+            }
+            if (loadedCount === frameCount) {
                 setTimeout(updateScroll, 50);
             }
         };
@@ -121,7 +118,7 @@ document.querySelectorAll('[data-scroll]').forEach(btn => {
         const targetPercent = parseInt(btn.getAttribute('data-scroll'), 10);
         const maxScrollTop = html.scrollHeight - window.innerHeight;
         const targetScroll = (targetPercent / 100) * maxScrollTop;
-        
+
         window.scrollTo({
             top: targetScroll,
             behavior: 'smooth'
