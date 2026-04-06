@@ -1,5 +1,6 @@
-const canvas = document.getElementById("frame-canvas");
+Const canvas = document.getElementById("frame-canvas");
 const ctx = canvas.getContext("2d");
+
 const frameCount = 40;
 
 const getFrame = (index) =>
@@ -11,7 +12,7 @@ let currentFrameIndex = 0;
 
 function resize() {
     canvas.width = window.innerWidth;
-    canvas.height = document.documentElement.clientHeight; // Mobile Fix
+    canvas.height = window.innerHeight;
     drawFrame(currentFrameIndex);
 }
 
@@ -20,8 +21,9 @@ function drawFrame(index) {
     if (!img || !img.complete) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Ye logic image ko stretch nahi karega, zoom karke fit karega (Black bars khatam)
     const scale = Math.max(
         canvas.width / img.width,
         canvas.height / img.height
@@ -29,12 +31,12 @@ function drawFrame(index) {
     const x = (canvas.width - img.width * scale) / 2;
     const y = (canvas.height - img.height * scale) / 2;
 
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 }
 
 const html = document.documentElement;
+const beats = document.querySelectorAll('.beat');
+const navbar = document.getElementById('navbar');
 
 function updateScroll() {
     const scrollTop = html.scrollTop;
@@ -51,30 +53,44 @@ function updateScroll() {
         drawFrame(currentFrameIndex);
     }
 
-    // Navbar Logic
-    const navbar = document.getElementById('navbar');
     if (scrollTop > 50) {
         navbar.classList.remove('hidden-nav');
     } else {
         navbar.classList.add('hidden-nav');
     }
 
-    // Beats Animation Logic (Aapka Original Logic)
-    const beats = document.querySelectorAll('.beat');
     const p = scrollFraction * 100;
 
     beats.forEach((beat, index) => {
         let isActive = false;
-        if (index === 0) isActive = p >= 0 && p < 15;
-        else if (index === 1) isActive = p >= 15 && p < 40;
-        else if (index === 2) isActive = p >= 40 && p < 65;
-        else if (index === 3) isActive = p >= 65 && p < 85;
-        else if (index === 4) isActive = p >= 85;
+        let isPast = false;
+
+        if (index === 0) {
+            isActive = p >= 0 && p < 15;
+            isPast = p >= 15;
+        } else if (index === 1) {
+            isActive = p >= 15 && p < 40;
+            isPast = p >= 40;
+        } else if (index === 2) {
+            isActive = p >= 40 && p < 65;
+            isPast = p >= 65;
+        } else if (index === 3) {
+            isActive = p >= 65 && p < 85;
+            isPast = p >= 85;
+        } else if (index === 4) {
+            isActive = p >= 85;
+            isPast = false;
+        }
 
         if (isActive) {
             beat.classList.add('active');
+            beat.classList.remove('past', 'future');
+        } else if (isPast) {
+            beat.classList.add('past');
+            beat.classList.remove('active', 'future');
         } else {
-            beat.classList.remove('active');
+            beat.classList.add('future');
+            beat.classList.remove('active', 'past');
         }
     });
 }
@@ -85,23 +101,26 @@ function preloadImages() {
         img.src = getFrame(i);
         img.onload = () => {
             loadedCount++;
-            if (loadedCount === 1) drawFrame(0);
+            if (loadedCount === 1) {
+                drawFrame(0);
+            }
             if (loadedCount === frameCount) {
-                updateScroll();
+                setTimeout(updateScroll, 50);
             }
         };
         images.push(img);
     }
 }
 
-// Click to scroll buttons
 document.querySelectorAll('[data-scroll]').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
         const targetPercent = parseInt(btn.getAttribute('data-scroll'), 10);
         const maxScrollTop = html.scrollHeight - window.innerHeight;
+        const targetScroll = (targetPercent / 100) * maxScrollTop;
+
         window.scrollTo({
-            top: (targetPercent / 100) * maxScrollTop,
+            top: targetScroll,
             behavior: 'smooth'
         });
     });
