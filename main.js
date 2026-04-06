@@ -11,6 +11,7 @@ let loadedCount = 0;
 let currentFrameIndex = 0;
 
 function resize() {
+    // Mobile browsers ke toolbar issue ko fix karne ke liye innerHeight use ki hai
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     drawFrame(currentFrameIndex);
@@ -20,16 +21,21 @@ function drawFrame(index) {
     const img = images[index];
     if (!img || !img.complete) return;
 
+    // Canvas ko clear karein
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#050505';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Ye part images ko zoom karke fit karega (Like object-fit: cover)
     const scale = Math.max(
         canvas.width / img.width,
         canvas.height / img.height
     );
+    
     const x = (canvas.width - img.width * scale) / 2;
     const y = (canvas.height - img.height * scale) / 2;
+
+    // Smooth rendering ke liye image smoothing enable karein
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
     ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
 }
